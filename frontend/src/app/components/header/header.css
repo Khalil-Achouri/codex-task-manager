@@ -1,0 +1,151 @@
+.header {
+  background: #111827;
+  color: white;
+}
+
+.navbar {
+  min-height: 76px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  margin-right: 80px;
+}
+
+.logo-main {
+  font-size: 29px;
+  font-weight: 700;
+  line-height: 28px;
+  color: #fff;
+}
+
+.logo-subtitle {
+  color: #aab4ca;
+  font-size: 11px;
+}
+
+.nav-links {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.nav-links a {
+  color: #c5ccda;
+  text-decoration: none;
+  font-size: 15px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: white;
+  border-bottom-color: #5869ff;
+}
+
+.auth-buttons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.welcome {
+  color: #cbd3e3;
+  font-size: 14px;
+}
+
+.login-button,
+.register-button,
+.logout-button {
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.login-button {
+  border: 1px solid #aeb7c9;
+  color: white;
+  background: transparent;
+}
+
+.register-button {
+  border: 1px solid #5265ef;
+  background: #5265ef;
+  color: white;
+}
+
+.logout-button {
+  border: 1px solid #5265ef;
+  background: transparent;
+  color: white;
+}
+
+.menu-button,
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .logo {
+    margin-right: 0;
+  }
+
+  .nav-links,
+  .auth-buttons {
+    display: none;
+  }
+
+  .menu-button {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: 0;
+    padding: 10px;
+  }
+
+  .menu-button span {
+    width: 24px;
+    height: 2px;
+    background: white;
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px 20px;
+    gap: 5px;
+  }
+
+  .mobile-menu a,
+  .mobile-logout {
+    padding: 13px 5px;
+    color: #d4d9e5;
+    text-decoration: none;
+    border: 0;
+    background: transparent;
+    text-align: left;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <a routerLink="/" class="brand">Codex</a>
+
+    <h1>Create account</h1>
+    <p>Join Codex and start managing projects.</p>
+
+    @if (error) {
+      <div class="error">{{ error }}</div>
+    }
+
+    <form (ngSubmit)="submit()">
+      <label>Name</label>
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="name"
+        required>
+
+      <label>Email</label>
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        required>
+
+      <label>Password</label>
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        minlength="6">
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Creating account...' : 'Register' }}
+      </button>
+    </form>
+
+    <p class="switch">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+  </div>
+</div>

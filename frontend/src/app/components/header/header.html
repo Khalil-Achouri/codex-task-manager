@@ -1,0 +1,66 @@
+<header class="header">
+  <div class="navbar">
+
+    <a class="logo" routerLink="/" (click)="closeMenu()">
+      <span class="logo-main">Codex</span>
+      <span class="logo-subtitle">Task Manager</span>
+    </a>
+
+    <nav class="nav-links">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Home
+      </a>
+
+      <a
+        routerLink="/"
+        fragment="projects"
+        (click)="closeMenu()">
+        Projects
+      </a>
+
+      @if (loggedIn) {
+        <a
+          routerLink="/user"
+          routerLinkActive="active">
+          My Space
+        </a>
+      }
+    </nav>
+
+    <div class="auth-buttons">
+      @if (loggedIn) {
+        <span class="welcome">Hi, {{ userName }}</span>
+        <button class="logout-button" (click)="logout()">Logout</button>
+      } @else {
+        <a routerLink="/login" class="login-button">Login</a>
+        <a routerLink="/register" class="register-button">Register</a>
+      }
+    </div>
+
+    <button
+      class="menu-button"
+      (click)="toggleMenu()"
+      aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  @if (menuOpen) {
+    <nav class="mobile-menu">
+      <a routerLink="/" (click)="closeMenu()">Home</a>
+
+      @if (loggedIn) {
+        <a routerLink="/user" (click)="closeMenu()">My Space</a>
+        <button class="mobile-logout" (click)="logout()">Logout</button>
+      } @else {
+        <a routerLink="/login" (click)="closeMenu()">Login</a>
+        <a routerLink="/register" (click)="closeMenu()">Register</a>
+      }
+    </nav>
+  }
+</header>

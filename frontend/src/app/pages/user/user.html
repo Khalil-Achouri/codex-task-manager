@@ -1,0 +1,109 @@
+<app-header></app-header>
+
+<main class="user-page">
+  <div class="container">
+
+    <section class="dashboard-header">
+      <div>
+        <p class="eyebrow">MY SPACE</p>
+        <h1>Welcome, {{ userName }}</h1>
+        <p>Manage your projects and tasks from here.</p>
+      </div>
+
+      <button class="primary" (click)="showForm = !showForm">
+        + New Project
+      </button>
+    </section>
+
+    @if (message) {
+      <div class="success">{{ message }}</div>
+    }
+
+    @if (error) {
+      <div class="error">{{ error }}</div>
+    }
+
+    @if (showForm) {
+      <section class="form-card">
+        <h2>Create a project</h2>
+
+        <form (ngSubmit)="createProject()">
+          <label>Title</label>
+          <input
+            name="title"
+            [(ngModel)]="newProject.title"
+            required>
+
+          <label>Description</label>
+          <textarea
+            name="description"
+            [(ngModel)]="newProject.description"
+            rows="4"></textarea>
+
+          <div class="form-actions">
+            <button type="button" class="secondary" (click)="showForm = false">
+              Cancel
+            </button>
+
+            <button type="submit" class="primary">
+              Create
+            </button>
+          </div>
+        </form>
+      </section>
+    }
+
+    <section class="projects">
+      <div class="section-heading">
+        <h2>My Projects</h2>
+        <span>{{ projects.length }} projects</span>
+      </div>
+
+      @if (loading) {
+        <p>Loading...</p>
+      }
+
+      @if (!loading && projects.length === 0) {
+        <div class="empty">
+          <h3>No projects yet</h3>
+          <p>Create your first project to get started.</p>
+        </div>
+      }
+
+      <div class="grid">
+        @for (project of projects; track project._id) {
+          <article class="project-card">
+            <div (click)="openProject(project._id)" class="clickable">
+              <div class="top">
+                <h3>{{ project.title }}</h3>
+                <span>{{ project.status }}</span>
+              </div>
+
+              <p>{{ project.description || 'No description.' }}</p>
+
+              <small>
+                {{ project.members.length }} members ·
+                {{ project.tasks.length }} tasks
+              </small>
+            </div>
+
+            <div class="actions">
+              <button
+                class="open"
+                (click)="openProject(project._id)">
+                Open
+              </button>
+
+              <button
+                class="delete"
+                (click)="deleteProject(project._id)">
+                Delete
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+  </div>
+</main>

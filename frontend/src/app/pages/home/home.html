@@ -1,0 +1,92 @@
+<app-header></app-header>
+
+<main class="home">
+
+  <section class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">COLLABORATE • ORGANIZE • BUILD TOGETHER</p>
+
+      <h1>
+        Projects that turn<br>
+        ideas into <span>reality.</span>
+      </h1>
+
+      <p class="hero-description">
+        Discover projects, see who is working on them and
+        follow the tasks that turn ideas into real products.
+      </p>
+
+      <div class="search-box">
+        <span>⌕</span>
+        <input
+          [(ngModel)]="search"
+          placeholder="Search projects...">
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="art-card">
+        <div>✓ &nbsp; Design homepage</div>
+        <div>✓ &nbsp; Create API</div>
+        <div>✓ &nbsp; Connect database</div>
+        <div>✓ &nbsp; Test application</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects-section" id="projects">
+    <div class="section-heading">
+      <div>
+        <h2>All Projects</h2>
+        <p>Explore what the community is building.</p>
+      </div>
+    </div>
+
+    @if (loading) {
+      <div class="message">Loading projects...</div>
+    }
+
+    @if (error) {
+      <div class="message error">{{ error }}</div>
+    }
+
+    @if (!loading && !error && filteredProjects.length === 0) {
+      <div class="message">No projects found.</div>
+    }
+
+    <div class="project-grid">
+      @for (project of filteredProjects; track project._id) {
+        <article
+          class="project-card"
+          (click)="openProject(project._id)">
+
+          <div class="project-icon">📁</div>
+
+          <div class="project-main">
+            <div class="title-row">
+              <h3>{{ project.title }}</h3>
+
+              <span
+                class="status"
+                [class.progress]="project.status === 'In Progress'"
+                [class.completed]="project.status === 'Completed'"
+                [class.hold]="project.status === 'On Hold'">
+                {{ project.status }}
+              </span>
+            </div>
+
+            <p>{{ project.description || 'No description.' }}</p>
+
+            <div class="card-bottom">
+              <span>👥 {{ project.members.length }} members</span>
+              <span>☷ {{ project.tasks.length }} tasks</span>
+            </div>
+          </div>
+
+          <span class="arrow">→</span>
+        </article>
+      }
+    </div>
+  </section>
+
+</main>

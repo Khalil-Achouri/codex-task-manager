@@ -1,0 +1,154 @@
+
+<app-header></app-header>
+
+<main class="page">
+  <div class="container">
+
+    <button class="back" (click)="goBack()">← Back</button>
+
+    @if (loading) {
+      <div class="message">Loading project...</div>
+    }
+
+    @if (error) {
+      <div class="message error">{{ error }}</div>
+    }
+
+    @if (message) {
+      <div class="message success">{{ message }}</div>
+    }
+
+    @if (project) {
+      <section class="project-header">
+        <div>
+          <div class="title-row">
+            <h1>{{ project.title }}</h1>
+            <span class="status">{{ project.status }}</span>
+          </div>
+
+          <p>{{ project.description || 'No description.' }}</p>
+
+          <small>Owner: {{ project.owner.name }}</small>
+        </div>
+
+        <div class="stats">
+          <strong>{{ project.members.length }}</strong>
+          <span>Members</span>
+          <strong>{{ project.tasks.length }}</strong>
+          <span>Tasks</span>
+        </div>
+      </section>
+
+      <div class="content">
+        <section class="card">
+          <div class="section-title">
+            <div>
+              <h2>Tasks</h2>
+              <p class="muted">Tasks assigned to members of this project.</p>
+            </div>
+
+            @if (isOwner) {
+              <button class="primary" (click)="showTaskForm = !showTaskForm">
+                + Add Task
+              </button>
+            }
+          </div>
+
+          @if (showTaskForm && isOwner) {
+            <div class="task-form">
+              <h3>New task</h3>
+
+              <label>Title</label>
+              <input
+                name="taskTitle"
+                [(ngModel)]="newTask.title"
+                placeholder="Task title">
+
+              <label>Description</label>
+              <textarea
+                name="taskDescription"
+                [(ngModel)]="newTask.description"
+                rows="3"
+                placeholder="What needs to be done?"></textarea>
+
+              <label>Assign to</label>
+              <select
+                name="assignedTo"
+                [(ngModel)]="newTask.assignedTo">
+
+                <option value="">Nobody yet</option>
+
+                @for (member of project.members; track member.id) {
+                  <option [value]="member.id">
+                    {{ member.name }}
+                  </option>
+                }
+              </select>
+
+              <div class="form-actions">
+                <button class="secondary" (click)="showTaskForm = false">
+                  Cancel
+                </button>
+                <button class="primary" (click)="addTask()">
+                  Create Task
+                </button>
+              </div>
+            </div>
+          }
+
+          @if (project.tasks.length === 0) {
+            <p class="muted">No tasks yet.</p>
+          }
+
+          @for (task of project.tasks; track task._id) {
+            <article class="task">
+              <div class="task-content">
+                <h3>{{ task.title }}</h3>
+                <p>{{ task.description || 'No description.' }}</p>
+
+                @if (task.assignedTo) {
+                  <small>Assigned to {{ task.assignedTo.name }}</small>
+                }
+              </div>
+
+              <div class="task-actions">
+                @if (isOwner) {
+                  <select
+                    [ngModel]="task.status"
+                    (ngModelChange)="changeTaskStatus(task._id, $event)">
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+
+                  <button
+                    class="delete"
+                    (click)="deleteTask(task._id)">
+                    Delete
+                  </button>
+                } @else {
+                  <span class="task-status">{{ task.status }}</span>
+                }
+              </div>
+            </article>
+          }
+        </section>
+
+        <aside class="card">
+          <h2>Members</h2>
+          <p class="muted">People working on this project.</p>
+
+          @for (member of project.members; track member.id) {
+            <div class="member">
+              <span class="avatar">{{ member.name.charAt(0) }}</span>
+              <div>
+                <strong>{{ member.name }}</strong>
+                <small>{{ member.email }}</small>
+              </div>
+            </div>
+          }
+        </aside>
+      </div>
+    }
+  </div>
+</main>
